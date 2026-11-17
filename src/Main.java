@@ -22,10 +22,10 @@ public class Main {
         boolean playing = true;
 
         printHeader();
-        System.out.println("Willkommen bei Blackjack!");
+        System.out.println("Welcome to Blackjack!");
 
         while (playing && chips > 0) {
-            System.out.println("\nDein Guthaben: " + chips + " Chips");
+            System.out.println("\nYour balance: " + chips + " chips");
             int bet = readBet(scanner, chips);
 
             if (bet == 0) {
@@ -45,9 +45,9 @@ public class Main {
         }
 
         if (chips == 0) {
-            System.out.println("\nDu hast keine Chips mehr. Das Spiel ist vorbei.");
+            System.out.println("\nYou have no chips left. The game is over.");
         } else {
-            System.out.println("\nDanke fuer das Spiel!");
+            System.out.println("\nThank you for playing!");
         }
         scanner.close();
     }
@@ -83,7 +83,7 @@ public class Main {
             } else if (choice == 2) {
                 playerStands = true;
             } else {
-                System.out.println("Die Runde wurde beendet.");
+                System.out.println("The round has ended.");
                 return -1;
             }
         }
@@ -102,32 +102,32 @@ public class Main {
     private static int settleBlackjack(int chips, int bet, boolean playerBlackjack,
                                        boolean dealerBlackjack) {
         if (playerBlackjack && dealerBlackjack) {
-            System.out.println("Gleichstand! Dein Einsatz wird zurueckgegeben.");
+            System.out.println("Tie! Your bet is returned.");
             return chips + bet;
         }
         if (playerBlackjack) {
             int winnings = bet + bet * 3 / 2;
-            System.out.println("Blackjack! Du gewinnst " + winnings + " Chips.");
+            System.out.println("Blackjack! You win " + winnings + " chips.");
             return chips + winnings;
         }
-        System.out.println("Der Dealer hat Blackjack. Du verlierst den Einsatz.");
+        System.out.println("The dealer has Blackjack. You lose your bet.");
         return chips;
     }
 
     private static int settleRound(int chips, int bet, int playerScore, int dealerScore) {
         if (playerScore > 21) {
-            System.out.println("Du bist ueber 21. Du verlierst den Einsatz.");
+            System.out.println("You are over 21. You lose your bet.");
             return chips;
         }
         if (dealerScore > 21 || playerScore > dealerScore) {
-            System.out.println("Du gewinnst " + bet * 2 + " Chips!");
+            System.out.println("You win " + bet * 2 + " chips!");
             return chips + bet * 2;
         }
         if (playerScore == dealerScore) {
-            System.out.println("Gleichstand! Dein Einsatz wird zurueckgegeben.");
+            System.out.println("Tie! Your bet is returned.");
             return chips + bet;
         }
-        System.out.println("Der Dealer gewinnt.");
+        System.out.println("The dealer wins.");
         return chips;
     }
 
@@ -135,14 +135,14 @@ public class Main {
         if (chips == 0) {
             return false;
         }
-        System.out.print("\nNoch eine Runde spielen? (j/n): ");
+        System.out.print("\nPlay another round? (y/n): ");
         String answer = scanner.nextLine().trim().toLowerCase();
-        return answer.equals("j") || answer.equals("ja");
+        return answer.equals("y") || answer.equals("yes");
     }
 
     private static int readBet(Scanner scanner, int chips) {
         while (true) {
-            System.out.print("Einsatz eingeben (0 zum Beenden): ");
+            System.out.print("Enter bet (0 to end): ");
             String input = scanner.nextLine().trim();
 
             try {
@@ -151,16 +151,16 @@ public class Main {
                     return bet;
                 }
             } catch (NumberFormatException exception) {
-                // Bei einer falschen Eingabe wird die Frage wiederholt.
+                // Repeat the question when the input is invalid.
             }
 
-            System.out.println("Bitte gib einen Einsatz zwischen 0 und " + chips + " ein.");
+            System.out.println("Please enter a bet between 0 and " + chips + ".");
         }
     }
 
     private static int readChoice(Scanner scanner) {
         while (true) {
-            System.out.print("Auswahl: ");
+            System.out.print("Choice: ");
             String input = scanner.nextLine().trim();
 
             try {
@@ -169,10 +169,10 @@ public class Main {
                     return choice;
                 }
             } catch (NumberFormatException exception) {
-                // Bei einer falschen Eingabe wird die Frage wiederholt.
+                // Repeat the question when the input is invalid.
             }
 
-            System.out.println("Bitte waehle 1, 2 oder 3.");
+            System.out.println("Please choose 1, 2, or 3.");
         }
     }
 
@@ -187,23 +187,23 @@ public class Main {
         }
 
         if (revealDealer) {
-            System.out.println("       Punktzahl: " + handValue(dealerHand, dealerCount));
+            System.out.println("       Score: " + handValue(dealerHand, dealerCount));
         } else {
             System.out.println();
         }
 
-        System.out.println("\nDeine Karten:");
+        System.out.println("\nYour cards:");
         for (int cardIndex = 0; cardIndex < playerCount; cardIndex++) {
             System.out.print("[ " + playerHand[cardIndex].symbol + " ] ");
         }
-        System.out.println("       Punktzahl: " + handValue(playerHand, playerCount));
+        System.out.println("       Score: " + handValue(playerHand, playerCount));
         System.out.println("----------------------------------------");
 
         if (!revealDealer) {
-            System.out.println("\nWas moechtest du tun?\n");
-            System.out.println("1. Karte ziehen");
-            System.out.println("2. Halten");
-            System.out.println("3. Spiel beenden\n");
+            System.out.println("\nWhat would you like to do?\n");
+            System.out.println("1. Draw a card");
+            System.out.println("2. Stand");
+            System.out.println("3. End game\n");
         }
     }
 
@@ -218,7 +218,7 @@ public class Main {
             }
         }
 
-        // Ein Ass zaehlt als 1 statt 11, wenn die Hand sonst ueber 21 waere.
+        // Count an ace as 1 instead of 11 if the hand would otherwise exceed 21.
         while (score > 21 && aces > 0) {
             score -= 10;
             aces--;
